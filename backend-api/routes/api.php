@@ -10,3 +10,8 @@ Route::get(
     [ProductController::class, 'index'] 
 );
 
+Route::post(
+    '/products',
+    [ProductController::class, 'store']
+);
+
