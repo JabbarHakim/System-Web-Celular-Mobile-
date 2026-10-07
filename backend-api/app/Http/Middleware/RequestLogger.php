@@ -9,14 +9,9 @@ use Illuminate\Support\Facades\Log;
 
 class RequestLogger
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  Closure(Request): (Response)  $next
-     */
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next)
     {
-        Log::info('Request Accepted: ' . $request->method() . ' ' . $request->path());
+        Log::info("Request Accepted: " . $request->method() . " " . $request->path());
         return $next($request);
     }
 }
