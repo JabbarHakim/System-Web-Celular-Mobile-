@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\ProductService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use App\Models\Product;
 
 class ProductController extends Controller
 {
@@ -18,11 +19,9 @@ class ProductController extends Controller
 
     public function index()
     {
-        $products = $this->productService->getProducts();
-        return response()->json([
-            'message' => 'List of products',
-            'data' => $products,
-        ]);
+        return response()->json(
+            Product::all()
+        );
     }
 
 
@@ -32,6 +31,7 @@ class ProductController extends Controller
             $validated = $request->validate([
                 'name' => 'required|string|max:100',
                 'price' => 'required|numeric|min:0.00',
+                'stock' => 'required|integer|min:0',
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json([
