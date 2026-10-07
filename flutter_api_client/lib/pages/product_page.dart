@@ -47,6 +47,7 @@ class _ProductPageState extends State<ProductPage> {
               return ListTile(
                 title: Text(product.name),
                 subtitle: Text('\$${product.price}'),
+                trailing: Text('Available: ${product.stock}'),
               );
             },
           );
