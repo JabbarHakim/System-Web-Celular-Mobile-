@@ -2,10 +2,11 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductController;
 
-Route::get( '/products', function () {
-    return response()->json([
-        'message' => 'List of products',]);
-    }
+
+Route::get( 
+    '/products', 
+    [ProductController::class, 'index'] 
 );
 
