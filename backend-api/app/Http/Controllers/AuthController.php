@@ -20,14 +20,14 @@ class AuthController extends Controller
 
         if (!$user || !Hash::check($credentials['password'], $user->password)) {
             return response()->json([
-                'message' => 'Email atau password salah'
+                'message' => 'Email or Password is incorrect',
             ], 401);
         }
 
         $token = JWTAuth::fromUser($user);
 
         return response()->json([
-            'message' => 'Login berhasil',
+            'message' => 'Login successful',
             'token' => $token,
         ], 200);
     }
