@@ -1,0 +1,6 @@
+.env
+.git
+.gitignore
+node_modules
+backend-api.zip
+storage/logs/*
