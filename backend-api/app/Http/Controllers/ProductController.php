@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\ProductService;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
@@ -24,12 +24,16 @@ class ProductController extends Controller
             'data' => $products,
         ]);
     }
+
+
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'price' => 'required|numeric|min:0',
+            'name' => 'required|string|max:100',
+            'price' => 'required|numeric|min:0.00',
         ]);
+
+        Log::info('Request', $validated);
 
         return response()->json([
             'message' => 'Product created successfully',
