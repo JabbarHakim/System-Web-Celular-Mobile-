@@ -13,17 +13,20 @@ Route::get(
                 [
                     'id' => 1,
                     'name' => 'Pokemon Card - Pikachu',
-                    'price' => 9.99
+                    'price' => 9.99,
+                    'stock' => 10,
                 ],
                 [
                     'id'=> 2,
                     'name'=> 'Pokemon Card - Charizard',
-                    'price' => 14.99
+                    'price' => 14.99,
+                    'stock' => 5,
                 ],
                 [
                     'id'=> 3,
                     'name'=> 'Pokemon Card - Blastoise',
-                    'price' => 11.99
+                    'price' => 11.99,
+                    'stock' => 8,
                 ]
             ]
         ]);
