@@ -28,10 +28,17 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:100',
-            'price' => 'required|numeric|min:0.00',
-        ]);
+        try{
+            $validated = $request->validate([
+                'name' => 'required|string|max:100',
+                'price' => 'required|numeric|min:0.00',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json([
+                'message' => 'Validation failed',
+                'errors' => $e->errors(),
+            ], 422);
+        
 
         Log::info('Request', $validated);
 
@@ -39,6 +46,12 @@ class ProductController extends Controller
             'message' => 'Product created successfully',
             'data' => $validated,
         ], 201);
+    } catch (\Exception $e) {
+        Log::error('Error creating product: ' . $e->getMessage());
+        return response()->json([
+            'message' => 'An error occurred while creating the product',
+            'error' => $e->getMessage(),
+        ], 500);
     }
 }
-
+}
