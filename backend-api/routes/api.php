@@ -21,6 +21,21 @@ Route::post(
     [ProductController::class, 'store']
 );
 
+Route::put(
+    '/products/{id}', 
+    [ProductController::class, 'update']
+    );
+
+Route::patch(
+    '/products/{id}', 
+    [ProductController::class, 'update']
+    );
+
+Route::delete(
+    '/products/{id}', 
+    [ProductController::class, 'destroy']
+    );
+
 Route::post(
     '/login', 
     [AuthController::class, 'login']
