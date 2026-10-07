@@ -2,56 +2,101 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\ProductService;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use App\Models\Product;
 
 class ProductController extends Controller
 {
-    private ProductService $productService;
-
-    public function __construct(
-        ProductService $productService)
-    {
-        $this->productService = $productService;
-    }
-
+    // GET /api/products
     public function index()
     {
-        return response()->json(
-            Product::all()
-        );
+        $products = Product::all();
+
+        return response()->json([
+            'message' => 'List of Products retrieved successfully',
+            'data' => $products
+        ], 200);
     }
 
+    // GET /api/products/{id}
+    public function show($id)
+    {
+        $product = Product::find($id);
 
+        if (!$product) {
+            return response()->json([
+                'message' => 'Product not found'
+            ], 404);
+        }
+
+        return response()->json([
+            'message' => 'Product details retrieved successfully',
+            'data' => $product
+        ], 200);
+    }
+
+    // POST /api/products
     public function store(Request $request)
     {
-        try{
-            $validated = $request->validate([
-                'name' => 'required|string|max:100',
-                'price' => 'required|numeric|min:0.00',
-                'stock' => 'required|integer|min:0',
-            ]);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return response()->json([
-                'message' => 'Validation failed',
-                'errors' => $e->errors(),
-            ], 422);
-        
+        $validated = $request->validate([
+            'name' => 'required|string|max:100',
+            'price' => 'required|numeric|min:0',
+            'stock' => 'required|integer|min:0'
+        ]);
 
-        Log::info('Request', $validated);
+        $product = Product::create($validated);
+
+        Log::info('Product created', [
+            'product_id' => $product->id
+        ]);
 
         return response()->json([
             'message' => 'Product created successfully',
-            'data' => $validated,
+            'data' => $product
         ], 201);
-    } catch (\Exception $e) {
-        Log::error('Error creating product: ' . $e->getMessage());
-        return response()->json([
-            'message' => 'An error occurred while creating the product',
-            'error' => $e->getMessage(),
-        ], 500);
     }
-}
+
+    // PUT /api/products/{id}
+    public function update(Request $request, $id)
+    {
+        $product = Product::find($id);
+
+        if (!$product) {
+            return response()->json([
+                'message' => 'Product not found'
+            ], 404);
+        }
+
+        $validated = $request->validate([
+            'name' => 'sometimes|required|string|max:100',
+            'price' => 'sometimes|required|numeric|min:0',
+            'stock' => 'sometimes|required|integer|min:0'
+        ]);
+
+        $product->update($validated);
+
+        return response()->json([
+            'message' => 'Product updated successfully',
+            'data' => $product
+        ], 200);
+    }
+
+    // DELETE /api/products/{id}
+    public function destroy($id)
+    {
+        $product = Product::find($id);
+
+        if (!$product) {
+            return response()->json([
+                'message' => 'Product not found'
+            ], 404);
+        }
+
+        $product->delete();
+
+        return response()->json([
+            'message' => 'Product deleted successfully'
+        ], 200);
+    }
 }
