@@ -16,8 +16,18 @@ Route::get(
     }
 );
 
+Route::get(
+    '/products/{id}', 
+    [ProductController::class, 'show']
+);
+
 Route::post(
     '/products',
+    [ProductController::class, 'store']
+);
+
+Route::post(
+    '/products/{id}', 
     [ProductController::class, 'store']
 );
 
