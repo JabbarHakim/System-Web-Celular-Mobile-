@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import '../models/Product.dart';
 
 class ApiService {
-  final String baseUrl = 'http://127.0.0.1:8000'; // Replace with your Laravel API base URL
+  final String baseUrl = 'http://erha-backend.duckdns.org'; // Replace with your Laravel API base URL
 
   Future<List<Product>> getProducts() async {
     try{
